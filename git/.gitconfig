@@ -1,0 +1,13 @@
+[user]
+	email = jiangmy@usc.edu
+	name = Matthew Jiang
+[init]
+	defaultBranch = main
+[help]
+	autocorrect = prompt
+[status]
+	submoduleSummary = true
+[diff]
+	submodule = log
+[branch]
+	sort = -committerdate	
