@@ -60,7 +60,29 @@ local theme_path = "/home/emgym/.config/awesome/themes/".."default/theme.lua"
 beautiful.init(theme_path)
 
 local nice = require("nice")
-nice()
+nice {
+    titlebar_color = "#00ff00",
+    titlebar_height = 30,
+    titlebar_font = "Noto Sans 11",
+
+    titlebar_items = {
+        left = {"close", "minimize", "maximize"},
+        middle = "title",
+        right = {"ontop", "floating"},
+    },
+
+    
+    -- You only need to pass the parameter you are changing
+    context_menu_theme = {
+        width = 300, 
+        font = "Noto Sans 11",
+        width = 230,
+    },
+    
+    -- Swap the designated buttons for resizing, and opening the context menu
+    mb_resize = nice.MB_MIDDLE,
+    mb_contextmenu = nice.MB_RIGHT,
+}
 
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
