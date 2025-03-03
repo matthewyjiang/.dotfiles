@@ -20,7 +20,6 @@ local net_widgets = require("net_widgets")
 
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
-
 treetile.focusnew = true  
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -59,7 +58,14 @@ end
 local theme_path = "/home/emgym/.config/awesome/themes/".."default/theme.lua"
 beautiful.init(theme_path)
 
-require('smart_borders'){ show_button_tooltips = true }
+require('smart_borders'){
+    show_button_tooltips = true,
+    button_size = beautiful.smart_borders_button_size,
+    border_width = beautiful.smart_borders_border_width,
+    align_horizontal = beautiful.smart_borders_align_horizontal,
+    color_focus = beautiful.smart_borders_color_focus,
+    color_normal = beautiful.smart_borders_color_normal
+}
 
 
 -- This is used later as the default terminal and editor to run.
