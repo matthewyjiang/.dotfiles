@@ -64,13 +64,14 @@ require('smart_borders'){
     border_width = beautiful.smart_borders_border_width,
     align_horizontal = beautiful.smart_borders_align_horizontal,
     color_focus = beautiful.smart_borders_color_focus,
-    color_normal = beautiful.smart_borders_color_normal
+    color_normal = beautiful.smart_borders_color_normal,
+    snapping = beautiful.smart_borders_snapping,
 }
 
 
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
-editor = os.getenv("EDITOR") or "code"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -109,6 +110,7 @@ myawesomemenu = {
    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "edit theme file", editor_cmd .. " " .. theme_path },
    { "restart", awesome.restart },
    { "quit", function() awesome.quit() end },
 }
@@ -140,7 +142,7 @@ beautiful.useless_gap = 0
 
 local cw = calendar_widget({
     theme = 'naughty',
-    placement = 'top_right',
+    placement = 'top',
     radius = 8,
     start_sunday = true,
     auto_hide = true,

@@ -26,15 +26,16 @@ theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap   = dpi(0)
-theme.border_width  = dpi(1)
+theme.border_width  = 0
 theme.border_normal = "#222222"
 theme.border_focus  = "#000000"
 theme.border_marked = "#ffffff"
 theme.smart_borders_button_size = dpi(60)
-theme.smart_borders_border_width = dpi(6)
+theme.smart_borders_border_width = dpi(8)
 theme.smart_borders_align_horizontal = "center"
 theme.smart_borders_color_focus = "#56666f"
 theme.smart_borders_color_normal = "#222222"
+theme.smart_borders_snapping = false
 
 -- There are other variable sets
 -- overriding the default one when
