@@ -16,3 +16,5 @@ vim.opt.smartindent = true   -- Smarter auto-indenting
 
 
 require("config.lazy")
+
+

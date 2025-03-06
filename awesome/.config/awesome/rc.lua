@@ -20,6 +20,7 @@ local net_widgets = require("net_widgets")
 
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
 treetile.focusnew = true  
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -71,7 +72,7 @@ require('smart_borders'){
 
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
-editor = os.getenv("EDITOR") or "vim"
+editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -122,6 +123,12 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 
 mylauncher = awful.widget.launcher({ image = beautiful.arch_icon,
                                      menu = mymainmenu })
+playerctl_widget = awful.widget.watch("playerctl metadata --format '{{ artist }} - {{ title }}'", 10, function(widget, stdout)
+	widget:set_markup(stdout:gsub("\n", ""))
+	widget.align = "center"
+end)
+
+local spotify_widget = require("awesome-wm-widgets.spotify-widget.spotify")
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -308,6 +315,10 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             -- mykeyboardlayout,
+            volume_widget({
+                widget_type = 'arc',
+                tooltip = true,
+            }),
             cpu_widget({
                 width = 70,
                 step_width = 2,
@@ -327,7 +338,11 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         s.textbox_container, -- Left widgets (you can add others here if desired)
         s.mytasklist, -- Middle widget
-        s.systray, -- Right widgets (you can add others here if desired)
+        {
+            layout = wibox.layout.fixed.horizontal,
+            -- playerctl_widget,
+            s.systray,
+        }, -- Right widgets (you can add others here if desired)
     }
 end)
 -- }}}
@@ -486,7 +501,10 @@ clientkeys = gears.table.join(
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end ,
-        {description = "(un)maximize horizontally", group = "client"})
+        {description = "(un)maximize horizontally", group = "client"}),
+        awful.key({}, "XF86AudioRaiseVolume", function () volume_widget:inc(5) end),
+        awful.key({}, "XF86AudioLowerVolume", function () volume_widget:dec(5) end),
+        awful.key({}, "XF86AudioMute", function () volume_widget:toggle() end)
 )
 
 -- Bind all key numbers to tags.
@@ -632,7 +650,6 @@ end)
 
 awful.spawn.with_shell("picom --config ~/.config/picom/picom.conf --daemon")
 awful.spawn.with_shell("nitrogen --restore")
-
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
