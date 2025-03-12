@@ -21,12 +21,18 @@ local net_widgets = require("net_widgets")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
+local playerctl_widget = require("awesomewm-playerctl.playerctl") {
+    play_icon = "/home/emgym/.config/awesome/awesomewm-playerctl/player_play.png",
+    pause_icon = "/home/emgym/.config/awesome/awesomewm-playerctl/player_pause.png",
+    show_tooltip = false,
+    font = "Noto Mono 9",
+}
 treetile.focusnew = true  
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
-naughty.config.defaults['icon_size'] = 1001
+naughty.config.defaults['icon_size'] = 64
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -60,13 +66,49 @@ local theme_path = "/home/emgym/.config/awesome/themes/".."default/theme.lua"
 beautiful.init(theme_path)
 
 require('smart_borders'){
-    show_button_tooltips = true,
+    show_button_tooltips = false,
     button_size = beautiful.smart_borders_button_size,
     border_width = beautiful.smart_borders_border_width,
     align_horizontal = beautiful.smart_borders_align_horizontal,
     color_focus = beautiful.smart_borders_color_focus,
     color_normal = beautiful.smart_borders_color_normal,
     snapping = beautiful.smart_borders_snapping,
+    color_close_normal = {
+        type = "linear",
+        from = {0, 0},
+        to = {60, 0},
+        stops = {{0, "#fd8489"}, {1, beautiful.smart_borders_color_normal}}
+    },
+    color_close_focus = {
+        type = "linear",
+        from = {0, 0},
+        to = {60, 0},
+        stops = {{0, "#fd8489"}, {1, beautiful.smart_borders_color_focus}}
+    },
+    color_close_hover = {
+        type = "linear",
+        from = {0, 0},
+        to = {60, 0},
+        stops = {{0, "#FF9EA3"}, {1, beautiful.smart_borders_color_focus}}
+    },
+    color_floating_normal = {
+        type = "linear",
+        from = {0, 0},
+        to = {40, 0},
+        stops = {{0, beautiful.smart_borders_color_normal}, {1, "#ddace7"}}
+    },
+    color_floating_focus = {
+        type = "linear",
+        from = {0, 0},
+        to = {40, 0},
+        stops = {{0, beautiful.smart_borders_color_focus}, {1, "#ddace7"}}
+    },
+    color_floating_hover = {
+        type = "linear",
+        from = {0, 0},
+        to = {40, 0},
+        stops = {{0, beautiful.smart_borders_color_focus}, {1, "#F7C6FF"}}
+    },
 }
 
 
@@ -119,13 +161,14 @@ myawesomemenu = {
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "open terminal", terminal }
                                   }
-                        })
+                              })
 
-mylauncher = awful.widget.launcher({ image = beautiful.arch_icon,
-                                     menu = mymainmenu })
-playerctl_widget = awful.widget.watch("playerctl metadata --format '{{ artist }} - {{ title }}'", 10, function(widget, stdout)
-	widget:set_markup(stdout:gsub("\n", ""))
-	widget.align = "center"
+-- mylauncher = awful.widget.launcher({ image = beautiful.arch_icon, menu = mymainmenu })
+
+-- open rofi power menu
+mylauncher = awful.widget.button({ image = beautiful.arch_icon })
+mylauncher:connect_signal("button::press", function()
+    awful.spawn("rofi -show power-menu -modi power-menu:rofi-power-menu -theme ~/.config/rofi/powermenu/type-1/style-1.rasi")
 end)
 
 local spotify_widget = require("awesome-wm-widgets.spotify-widget.spotify")
@@ -203,12 +246,24 @@ local tasklist_buttons = gears.table.join(
                                           end))
 
                                           
+
+
+-- get hostname
+local hostname = io.popen("hostname"):read()
+
 textbox = wibox.widget{
-    markup = 'emgym-desktop: Arch Linux',
+    markup = 'Arch Linux' .. ': ' .. hostname,
     align  = 'center',
     valign = 'center',
     widget = wibox.widget.textbox
 } 
+
+playerctl_widget_box = wibox.widget{
+    playerctl_widget,
+    left = 10,
+    right = 10,
+    widget = wibox.container.margin
+}
 
 
 awful.screen.connect_for_each_screen(function(s)
@@ -243,7 +298,8 @@ awful.screen.connect_for_each_screen(function(s)
         buttons  = tasklist_buttons,
         style    = {
             shape_border_width = 1,
-            shape_border_color = '#777777',
+            shape_border_color = '#666666',
+            shape = gears.shape.rounded_bar,
         },
         layout   = {
             spacing = 10,
@@ -295,7 +351,7 @@ awful.screen.connect_for_each_screen(function(s)
     })
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = 25, bg = "#222222" })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = 25 })
     s.systray = wibox.widget.systray()
     s.systray.set_horizontal(true)
 
@@ -307,6 +363,7 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
+            shape = gears.shape.rounded_bar,
             mylauncher,
             s.mytaglist,
             s.mypromptbox,
@@ -314,7 +371,7 @@ awful.screen.connect_for_each_screen(function(s)
         clock_widget,
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            -- mykeyboardlayout,
+           -- mykeyboardlayout,
             volume_widget({
                 widget_type = 'arc',
                 tooltip = true,
@@ -331,17 +388,29 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the bottom wibox
-    s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, height = 25, bg = "#222222" })
+    s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, height = 25 })
 
     -- Add widgets to the bottom wibox
     s.mybottomwibox:setup {
         layout = wibox.layout.align.horizontal,
-        s.textbox_container, -- Left widgets (you can add others here if desired)
-        s.mytasklist, -- Middle widget
+        {
+            s.textbox_container, -- Left widgets (you can add others here if desired)
+            layout = wibox.layout.fixed.horizontal,
+        },
+        { -- Middle widget
+            layout = wibox.layout.flex.horizontal,
+            {
+               widget = wibox.container.margin,
+               left = 100,
+               right = 200,
+               s.mytasklist,
+            }
+        },
         {
             layout = wibox.layout.fixed.horizontal,
-            -- playerctl_widget,
+            playerctl_widget_box,
             s.systray,
+        shape = gears.shape.rounded_bar,
         }, -- Right widgets (you can add others here if desired)
     }
 end)
@@ -439,7 +508,7 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.util.spawn('rofi -show drun -theme ~/.config/rofi/launchers/type-2/style-2.rasi') end,
+    awful.key({ modkey },            "r",     function () awful.util.spawn('rofi -show drun -theme ~/.config/rofi/launchers/type-2/style-1.rasi') end,
               {description = "run rofi", group = "launcher"}),
 
     awful.key({ modkey }, "x",
@@ -452,9 +521,8 @@ globalkeys = gears.table.join(
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
-    -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
+    awful.key({ modkey }, "e", function () awful.spawn.spawn("yazi") end,
+              {description = "open yazi", group = "launcher"}),
 
     awful.key({ modkey, "Shift"   }, "s", function () awful.spawn("flameshot gui") end,
               {description = "take screenshot with flameshot", group = "launcher"})

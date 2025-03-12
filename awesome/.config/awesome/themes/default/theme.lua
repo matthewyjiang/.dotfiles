@@ -16,7 +16,7 @@ theme.font          = "Noto Sans, Semibold 11"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#222222"
-theme.bg_urgent     = "#ffee8"
+theme.bg_urgent     = "#ffee88"
 theme.bg_minimize   = "#111111"
 theme.bg_systray    = theme.bg_normal
 
@@ -31,10 +31,10 @@ theme.border_normal = "#222222"
 theme.border_focus  = "#000000"
 theme.border_marked = "#ffffff"
 theme.smart_borders_button_size = dpi(60)
-theme.smart_borders_border_width = dpi(8)
+theme.smart_borders_border_width = dpi(6)
 theme.smart_borders_align_horizontal = "center"
-theme.smart_borders_color_focus = "#56666f"
-theme.smart_borders_color_normal = "#222222"
+theme.smart_borders_color_focus = "#56666f80"
+theme.smart_borders_color_normal = "#22222280"
 theme.smart_borders_snapping = false
 
 -- There are other variable sets
@@ -75,7 +75,7 @@ theme.menu_width  = dpi(150)
 -- You can add as many variables as
 -- you wish and access them by using
 -- beautiful.variable in your rc.lua
---theme.bg_widget = "#cc0000"
+--theme.bg_widget = "#222222"
 
 theme.wallpaper = themes_path.."default/background.png"
 

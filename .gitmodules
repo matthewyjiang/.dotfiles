@@ -20,3 +20,6 @@
 [submodule "nvim/.config/nvim/copilot.vim"]
 	path = nvim/.config/nvim/pack/github/start/copilot.vim
 	url = https://github.com/github/copilot.vim.git
+[submodule "awesome/.config/awesome/awesomewm-playerctl"]
+	path = awesome/.config/awesome/awesomewm-playerctl
+	url = git@github.com:dcfreire/awesomewm-playerctl.git
