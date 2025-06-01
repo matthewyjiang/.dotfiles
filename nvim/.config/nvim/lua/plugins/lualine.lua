@@ -6,7 +6,7 @@ return {
       -- Your custom configuration goes here
       options = {
         icons_enabled = true,
-        theme = 'auto',
+        theme = 'moonfly',
         component_separators = { left = '', right = ''},
         section_separators = { left = '', right = ''},
         disabled_filetypes = {
@@ -17,9 +17,9 @@ return {
         always_divide_middle = true,
         globalstatus = false,
         refresh = {
-          statusline = 1000,
-          tabline = 1000,
-          winbar = 1000,
+          statusline = 1,
+          tabline = 1,
+          winbar = 1,
         }
       },
       sections = {
