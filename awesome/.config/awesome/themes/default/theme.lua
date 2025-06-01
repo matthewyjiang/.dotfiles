@@ -2,40 +2,40 @@
 -- Default awesome theme --
 ---------------------------
 
-local theme_assets = require("beautiful.theme_assets")
-local xresources = require("beautiful.xresources")
-local dpi = xresources.apply_dpi
+local theme_assets                   = require("beautiful.theme_assets")
+local xresources                     = require("beautiful.xresources")
+local dpi                            = xresources.apply_dpi
 
-local gfs = require("gears.filesystem")
+local gfs                            = require("gears.filesystem")
 -- local themes_path = gfs.get_themes_dir()
-local themes_path = "/home/emgym/.config/awesome/themes/"
+local themes_path                    = "/home/emgym/.config/awesome/themes/"
 
-local theme = {}
+local theme                          = {}
 
-theme.font          = "Noto Sans, Semibold 11"
+theme.font                           = "Noto Sans Mono, Medium 11"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#222222"
-theme.bg_urgent     = "#ffee88"
-theme.bg_minimize   = "#111111"
-theme.bg_systray    = theme.bg_normal
+theme.bg_normal                      = "#0d1b2a"
+theme.bg_focus                       = "#1b263b"
+theme.bg_urgent                      = "#ffee88"
+theme.bg_minimize                    = "#111111"
+theme.bg_systray                     = theme.bg_normal
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal                      = "#eeeeee"
+theme.fg_focus                       = "#ffffff"
+theme.fg_urgent                      = "#ffffff"
+theme.fg_minimize                    = "#ffffff"
 
-theme.useless_gap   = dpi(0)
-theme.border_width  = 0
-theme.border_normal = "#222222"
-theme.border_focus  = "#000000"
-theme.border_marked = "#ffffff"
-theme.smart_borders_button_size = dpi(60)
-theme.smart_borders_border_width = dpi(6)
+theme.useless_gap                    = dpi(0)
+theme.border_width                   = 0
+theme.border_normal                  = "#0d1b2a"
+theme.border_focus                   = "#1b263b"
+theme.border_marked                  = "#778da9"
+theme.smart_borders_button_size      = dpi(60)
+theme.smart_borders_border_width     = dpi(8)
 theme.smart_borders_align_horizontal = "center"
-theme.smart_borders_color_focus = "#56666f80"
-theme.smart_borders_color_normal = "#22222280"
-theme.smart_borders_snapping = false
+theme.smart_borders_color_focus      = "#e0e1dd80"
+theme.smart_borders_color_normal     = "#778da980"
+theme.smart_borders_snapping         = false
 
 -- There are other variable sets
 -- overriding the default one when
@@ -68,16 +68,16 @@ theme.smart_borders_snapping = false
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
-theme.menu_submenu_icon = themes_path.."default/submenu.png"
-theme.menu_height = dpi(20)
-theme.menu_width  = dpi(150)
+theme.menu_submenu_icon              = themes_path .. "default/submenu.png"
+theme.menu_height                    = dpi(20)
+theme.menu_width                     = dpi(150)
 
 -- You can add as many variables as
 -- you wish and access them by using
 -- beautiful.variable in your rc.lua
 --theme.bg_widget = "#222222"
 
-theme.wallpaper = themes_path.."default/background.png"
+theme.wallpaper                      = themes_path .. "default/background.png"
 
 
 -- Generate Awesome icon:
@@ -85,7 +85,7 @@ theme.awesome_icon = theme_assets.awesome_icon(
     theme.menu_height, theme.bg_focus, theme.fg_focus
 )
 
-theme.arch_icon = themes_path.."default/arch-linux-icon.svg"
+theme.arch_icon = themes_path .. "default/arch-linux-icon.svg"
 theme.systray_icon_spacing = 5
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
