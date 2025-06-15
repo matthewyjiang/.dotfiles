@@ -1,0 +1,77 @@
+;; Main bar widget
+(defwidget bar []
+  (centerbox :orientation "h"
+    (workspaces)
+    (music)
+    (sidestuff)))
+
+;; Right side widgets
+(defwidget sidestuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+    (box :class "speaker-icon" :orientation "h")
+    (metric :label ""
+            :value volume
+            :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%")
+    time
+    (button :class "notification-button"
+            :onclick "swaync-client -t")
+  ))
+   
+
+;; Hyprland workspaces widget
+(defwidget workspaces []
+  (box :class "workspaces"
+       :orientation "h"
+       :space-evenly true
+       :halign "start"
+       :spacing 15
+    (for workspace in workspaces_json
+      (button :class {workspace.active ? "workspace-active" : "workspace-inactive"}
+              :onclick "hyprctl dispatch workspace ${workspace.id}"
+              "${workspace.id}"))))
+
+;; Music widget
+(defwidget music []
+  (box :class "music"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    {music != "" ? "🎵${music}" : ""}))
+
+;; Metric widget for sliders
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+;; Variables and polling
+(deflisten music :initial ""
+  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+
+(defpoll workspaces_json :interval "120ms"
+  "scripts/get-workspaces")
+
+(defpoll volume :interval "1s"
+  "scripts/getvol")
+
+(defpoll time :interval "9s"
+  "date '+%m/%d %H:%M'")
+
+;; Main window
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "10px"
+                      :y "10px"
+                      :width "1900px"
+                      :height "15px"
+                      :anchor "top center")
+  :reserve (struts :side "top" :distance "40px")
+  :exclusive true
+  (bar))

@@ -1,0 +1,78 @@
+* {
+  all: unset; // Unsets everything so you can style everything from scratch
+}
+// Global Styles
+.bar {
+  background-color: #0d1b2a;
+  color: #eeeeee;
+  border-radius: 15px;
+  margin: 0px;
+  padding: 8px;
+  font-family: 'Noto Sans Mono', monospace;
+}
+// Styles on classes (see eww.yuck for more information)
+.sidestuff slider {
+  all: unset;
+  color: #ffd5cd;
+}
+.metric scale trough highlight {
+  all: unset;
+  background-color: #eeeeee;
+  color: #000000;
+  border-radius: 10px;
+}
+.metric scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 3px;
+  min-width: 50px;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.speaker-icon {
+  background-size: cover;
+  background-image: url('images/speaker.png');
+  background-position: center;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+// Workspace button styles
+.workspaces button:hover {
+  color: #D35D6E;
+}
+
+.workspace-active {
+  color: #D35D6E;
+  font-weight: bold;
+}
+
+.workspace-inactive {
+  color: #b0b4bc;
+}
+
+.notification-button {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  margin-left: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  transition: all 0.2s ease;
+  background-image: url('images/notifications.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-size: 15px 15px;
+}
+
+.notification-button:hover {
+  background-color: rgba(211, 93, 110, 0.2);
+}
