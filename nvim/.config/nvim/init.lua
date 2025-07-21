@@ -73,4 +73,4 @@ vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help
 
 require("config.lazy")
 
-vim.cmd("colorscheme onedark")
+vim.cmd("colorscheme onedark_dark")
