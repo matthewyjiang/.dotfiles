@@ -1,6 +1,13 @@
+;; Music vars
+(defpoll SONG :interval "1s" `scripts/music_info --song`)
+(defpoll ARTIST :interval "1s" `scripts/music_info --artist`)
+(defpoll COVER :interval "1s" `scripts/music_info --cover`)
+(defpoll STATUS :interval "1s" `scripts/music_info --status`)
+
 ;; Main bar widget
 (defwidget bar []
   (centerbox :orientation "h"
+                :halign "fill"
     (workspaces)
     (music)
     (sidestuff)))
@@ -24,7 +31,7 @@
        :orientation "h"
        :space-evenly true
        :halign "start"
-       :spacing 15
+       :spacing 0
     (for workspace in workspaces_json
       (button :class {workspace.active ? "workspace-active" : "workspace-inactive"}
               :onclick "hyprctl dispatch workspace ${workspace.id}"
@@ -34,9 +41,25 @@
 (defwidget music []
   (box :class "music"
        :orientation "h"
-       :space-evenly false
-       :halign "center"
-    {music != "" ? "🎵${music}" : ""}))
+       :space-evenly true
+       :halign "start"
+       :valign "fill"
+       :vexpand "false"
+       (box :orientation "h" :space-evenly false :spacing 10
+            (box :class "album_art" :vexpand "false" :hexpand "false" :style "background-image: url('${COVER}');")
+            (box :class "musicbox" :orientation "v" :spacing 0 :valign "center" :halign "start" :space-evenly "false" :vexpand "false" :hexpand "false"
+		        (label :class "song" :halign "start" :wrap "false" :limit-width 20 :text SONG)
+		        (label :class "artist" :halign "start" :wrap "false" :limit-width 20 :text ARTIST)
+            )
+        )
+       
+   (box :class "musicbuttons" :orientation "h" :spacing 10 :valign "center" :halign "end" :space-evenly "false" :vexpand "false" :hexpand "false"
+		(button :style "background-image: url('images/music/previous-button.png');" :class "trackbutton" :onclick "scripts/music_info --prev")
+		(button :style "background-image: url('${STATUS}');" :class "playbutton" :onclick "scripts/music_info --toggle")
+		(button :style "background-image: url('images/music/next-button.png');" :class "trackbutton" :onclick "scripts/music_info --next"))
+  )
+)
+   
 
 ;; Metric widget for sliders
 (defwidget metric [label value onchange]
@@ -50,10 +73,6 @@
            :value value
            :onchange onchange)))
 
-;; Variables and polling
-(deflisten music :initial ""
-  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
-
 (defpoll workspaces_json :interval "120ms"
   "scripts/get-workspaces")
 
@@ -61,7 +80,7 @@
   "scripts/getvol")
 
 (defpoll time :interval "9s"
-  "date '+%m/%d %H:%M'")
+  "date '+%m/%d %I:%M %p'")
 
 ;; Main window
 (defwindow bar

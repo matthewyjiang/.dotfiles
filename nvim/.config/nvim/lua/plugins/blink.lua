@@ -20,6 +20,21 @@ return {
         -- See :h blink-cmp-config-keymap for defining your own keymap
         keymap = { preset = 'default' },
 
+        completion = { 
+            list = { 
+                selection = { 
+                    preselect = false, 
+                    auto_insert = false 
+                }
+            },
+            menu = { 
+                auto_show = false 
+            },
+            ghost_text = { 
+                enabled = true
+            },
+        },
+
         appearance = {
             nerd_font_variant = 'mono'
         },
