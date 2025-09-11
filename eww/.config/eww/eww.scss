@@ -8,7 +8,8 @@
   border-radius: 15px;
   margin: 0px;
   padding: 8px;
-  font-family: 'Noto Sans Mono', monospace;
+  font-family: monospace;
+  font-size: 12pt;
 }
 // Styles on classes (see eww.yuck for more information)
 .sidestuff slider {
@@ -39,13 +40,20 @@
   min-height: 20px;
 }
 
+.workspaces {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.workspaces button {
+  min-width: 27px;
+}
 // Workspace button styles
 .workspaces button:hover {
-  color: #D35D6E;
+  color: #EEEEEE;
 }
 
 .workspace-active {
-  color: #D35D6E;
+  color: #FFFFFF;
   font-weight: bold;
 }
 
@@ -75,4 +83,48 @@
 
 .notification-button:hover {
   background-color: rgba(211, 93, 110, 0.2);
+}
+
+.album_art {
+    background-repeat: no-repeat;
+	background-size: 30px;
+	min-height: 30px;
+	min-width: 30px;
+	margin: 0px;
+	border-radius: 8px;
+}
+
+.music {
+	margin : 0px 0px 0px 5px;
+    min-width: 350px;
+}
+
+.song {
+	font-size : 12px;
+	font-weight : bold;
+}
+
+.artist {
+	font-size : 12px;
+	font-weight : bold;
+}
+
+.musicbuttons {
+	margin : 0px 0px 0px 0px;
+}
+
+.playbutton {
+    background-repeat: no-repeat;
+	background-size: 24px;
+	min-height: 24px;
+	min-width: 24px;
+	margin: -1px 1px 0px 0px;
+}
+
+.trackbutton {
+    background-repeat: no-repeat;
+	background-size: 20px;
+	min-height: 24px;
+	min-width: 24px;
+	margin: 0px 0px 0px 1px;
 }

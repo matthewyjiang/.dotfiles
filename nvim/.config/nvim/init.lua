@@ -10,8 +10,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- Tab settings
-vim.opt.tabstop = 4
-vim.opt.expandtab = true
+vim.opt.tabstop = 4 vim.opt.expandtab = true
 vim.opt.autoindent = true
 
 -- Configure backspace behavior
@@ -20,6 +19,14 @@ vim.opt.backspace = 'indent,eol,start'
 vim.opt.shiftwidth = 4       -- Indentation width
 vim.opt.softtabstop = 4      -- Number of spaces a tab counts for while editing
 vim.opt.smartindent = true   -- Smarter auto-indenting
+
+
+vim.cmd([[
+  highlight Normal ctermbg=NONE guibg=NONE
+  highlight NonText ctermbg=NONE guibg=NONE
+]])
+
+vim.lsp.enable('clangd')
 
 vim.lsp.enable('pyright')
 vim.lsp.config('pyright', {
@@ -72,5 +79,6 @@ vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help
 
 
 require("config.lazy")
+
 
 vim.cmd("colorscheme onedark_dark")
