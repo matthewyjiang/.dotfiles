@@ -39,7 +39,18 @@ return {
             nerd_font_variant = 'mono'
         },
         signature = { enabled = true },
-
+        completion = {
+            list = {
+                preselect = false,
+                auto_insert = true,
+            },
+            menu = {
+                auto_show = false,
+            },
+            ghost_text = {
+                enabled = false
+            }
+        }
 
     },
     opts_extend = { "sources.default" }

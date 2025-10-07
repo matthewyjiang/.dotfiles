@@ -1,7 +1,6 @@
 [user]
 	email = matthewyjiang@gmail.com
 	name = Matthew Jiang
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ/Q2oyqMgxXJvV5+vLXMbitwzILl7CItDDs+ymG8pBW
 [init]
 	defaultBranch = main
 [help]
@@ -12,9 +11,3 @@
 	submodule = log
 [branch]
 	sort = -committerdate	
-[gpg]
-	format = ssh
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-[commit]
-	gpgsign = true
