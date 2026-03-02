@@ -41,8 +41,10 @@ return {
         signature = { enabled = true },
         completion = {
             list = {
-                preselect = false,
-                auto_insert = true,
+                selection = {
+                    preselect = false,
+                    auto_insert = true,
+                },
             },
             menu = {
                 auto_show = false,
