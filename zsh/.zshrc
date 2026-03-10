@@ -45,13 +45,21 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 export EDITOR="nvim"
 export VISUAL="nvim"
-alias ls='eza --color=auto'
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --color=auto'
+fi
 alias clear="printf '\x1b[H\x1b[2J'" 
-alias vim="nvim"
-alias cd="z"
+if command -v nvim >/dev/null 2>&1; then
+  alias vim="nvim"
+fi
+if command -v zoxide >/dev/null 2>&1; then
+  alias cd="z"
+fi
 
 # source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -63,10 +71,14 @@ function y() {
 }
 
 # fzf setup
-source <(fzf --zsh)
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
 
 # zoxide setup
-eval "$(zoxide init zsh)"
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
 
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git --exclude node_modules --exclude .cache --exclude __pycache__ --type f"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -78,6 +90,3 @@ export FZF_CTRL_T_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 export CXX=clang++
 export CC=clang
 
-
-alias vim="nvim"
-source <(fzf --zsh)
